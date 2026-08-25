@@ -4,6 +4,48 @@ Salesforce DX is a development approach that brings source-driven development, t
 
 This project template gets you started with the tools and structure you need to build Salesforce applications using source control, scratch orgs, and the Salesforce CLI.
 
+## Current Status
+
+### Case Investigator MVP ✅
+
+- [x] Agentforce routing to the Case Investigator subagent
+- [x] Custom Agent Action Get Case Context, backed by Apex `GetCaseContextAction`
+- [x] Lookup by Case Number
+- [x] Lookup by Salesforce Case ID
+- [x] Matching Case Number and Case ID resolve to the same Case
+- [x] Dedicated Agentforce runtime user
+- [x] Least-privilege read-only access
+- [x] User-mode data access with `WITH USER_MODE`
+- [x] Grounded structured responses in Agentforce Preview
+- [x] Nonexistent Case handling
+- [x] No-fabrication behavior for unsuccessful lookups
+- [x] Apex tests: 7/7 passed
+- [x] Apex test pass rate: 100%
+- [x] `GetCaseContextAction` code coverage: 95%
+- [x] Salesforce Code Analyzer: 0 violations
+- [x] Two documented PMD suppressions for `ExcessiveParameterList` in `code-analyzer.yml`
+
+The current action is read-only. Human escalation (`EscalateToHuman`) and linked external incident retrieval (`GetLinkedIncident`) are not implemented in this MVP.
+
+### Next
+
+- Implement human escalation flow
+- Implement linked external incident retrieval
+- Add broader end-to-end integration scenarios
+- Prepare repository documentation for portfolio presentation
+
+## Implemented Flow
+
+```text
+User request
+→ Agentforce Router
+→ Case Investigator
+→ Get Case Context
+→ Apex GetCaseContextAction
+→ Salesforce Case
+→ Grounded structured response
+```
+
 ## Prerequisites
 
 Before you start, make sure you have:
@@ -55,4 +97,3 @@ Transform your ideas into custom Lightning apps that extend CRM workflows direct
 - [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/)
 - [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
 - [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-
