@@ -25,26 +25,63 @@ This project template gets you started with the tools and structure you need to 
 - [x] Salesforce Code Analyzer: 0 violations
 - [x] Two documented PMD suppressions for `ExcessiveParameterList` in `code-analyzer.yml`
 
-The current action is read-only. Human escalation (`EscalateToHuman`) and linked external incident retrieval (`GetLinkedIncident`) are not implemented in this MVP.
+The current Case Investigator action is read-only.
+
+### Human Escalation MVP ✅
+
+- [x] Escalation subagent
+- [x] Explicit user confirmation before transfer
+- [x] Native Agentforce `@utils.escalate`
+- [x] Messaging connection configured with `SENVORA Service Escalation` as its Escalation Flow
+- [x] Active `SENVORA Service Escalation` outbound Omni-Channel Flow
+- [x] `SENVORA Service Escalations` queue configured for Messaging Sessions
+- [x] Human service representative presence in Omni-Channel with `Available - Messaging`
+- [x] Published Enhanced Web Chat v2 deployment
+- [x] Real Agentforce-to-human handoff
+- [x] Two-way human/customer conversation after handoff
+
+The handoff was validated through a real Messaging Session. Agentforce routed to the Escalation subagent, requested explicit confirmation, invoked the native escalation utility, and left the conversation when the human service representative joined.
 
 ### Next
 
-- Implement human escalation flow
-- Implement linked external incident retrieval
+- Implement `GetLinkedIncident`
 - Add broader end-to-end integration scenarios
+- Document external incident integration architecture
 - Prepare repository documentation for portfolio presentation
 
-## Implemented Flow
+## Implemented Flows
+
+### Case Investigation
 
 ```text
 User request
 → Agentforce Router
 → Case Investigator
 → Get Case Context
-→ Apex GetCaseContextAction
+→ Apex `GetCaseContextAction`
 → Salesforce Case
 → Grounded structured response
 ```
+
+### Human Escalation
+
+```text
+Customer in Enhanced Web Chat
+→ Agentforce Router
+→ Escalation subagent
+→ Explicit user confirmation
+→ `@utils.escalate`
+→ `SENVORA Service Escalation` Omni-Channel Flow
+→ `SENVORA Service Escalations` queue
+→ Human service representative
+→ Two-way conversation
+```
+
+## Current Limitations
+
+- `GetLinkedIncident` is not implemented yet.
+- The repository demonstrates a validated service-agent MVP, not a production-ready support platform.
+- Production hardening, monitoring, broader regression coverage, and deployment governance are still pending.
 
 ## Prerequisites
 
