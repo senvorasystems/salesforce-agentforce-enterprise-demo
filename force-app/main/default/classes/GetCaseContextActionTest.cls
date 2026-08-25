@@ -28,7 +28,7 @@ private class GetCaseContextActionTest {
         GetCaseContextAction.Response response = responses[0];
         System.assertEquals(true, response.success);
         System.assertEquals(null, response.errorMessage);
-        System.assertEquals(expected.Id, response.caseId);
+        System.assertEquals(String.valueOf(expected.Id), response.caseId);
         System.assertEquals(expected.CaseNumber, response.caseNumber);
         System.assertEquals('API integration failure', response.subject);
         System.assertEquals('Working', response.status);
@@ -52,7 +52,7 @@ private class GetCaseContextActionTest {
         )[0];
 
         System.assertEquals(true, response.success);
-        System.assertEquals(expected.Id, response.caseId);
+        System.assertEquals(String.valueOf(expected.Id), response.caseId);
         System.assertEquals('Senvora Test Account', response.accountName);
         System.assertEquals('Test Contact', response.contactName);
     }
@@ -89,10 +89,10 @@ private class GetCaseContextActionTest {
 
         System.assertEquals(4, responses.size());
         System.assertEquals(true, responses[0].success);
-        System.assertEquals(expected.Id, responses[0].caseId);
+        System.assertEquals(String.valueOf(expected.Id), responses[0].caseId);
         System.assertEquals(false, responses[1].success);
         System.assertEquals(true, responses[2].success);
-        System.assertEquals(expected.Id, responses[2].caseId);
+        System.assertEquals(String.valueOf(expected.Id), responses[2].caseId);
         System.assertEquals(false, responses[3].success);
     }
 

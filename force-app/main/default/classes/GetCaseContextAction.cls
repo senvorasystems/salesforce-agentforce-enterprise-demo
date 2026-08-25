@@ -26,7 +26,7 @@ public with sharing class GetCaseContextAction {
         public String errorMessage;
 
         @InvocableVariable
-        public Id caseId;
+        public String caseId;
 
         @InvocableVariable
         public String caseNumber;
@@ -187,7 +187,7 @@ public with sharing class GetCaseContextAction {
     private static Response successResponse(Case caseRecord) {
         Response response = new Response();
         response.success = true;
-        response.caseId = caseRecord.Id;
+        response.caseId = String.valueOf(caseRecord.Id);
         response.caseNumber = caseRecord.CaseNumber;
         response.subject = caseRecord.Subject;
         response.status = caseRecord.Status;
