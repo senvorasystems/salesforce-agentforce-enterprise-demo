@@ -1,0 +1,9 @@
+engines:
+  flow:
+    disable_engine: true
+
+suppressions:
+  "force-app/main/default/classes/GetCaseContextAction.cls":
+    - rule_selector: "pmd:ExcessiveParameterList"
+      max_suppressed_violations: 2
+      reason: "Accepted for two cohesive private helper methods. Introducing wrapper objects solely to reduce four explicit parameters would add unnecessary complexity."
