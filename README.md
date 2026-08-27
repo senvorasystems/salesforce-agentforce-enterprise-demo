@@ -42,11 +42,40 @@ The current Case Investigator action is read-only.
 
 The handoff was validated through a real Messaging Session. Agentforce routed to the Escalation subagent, requested explicit confirmation, invoked the native escalation utility, and left the conversation when the human service representative joined.
 
+### External Integration MVP ✅
+
+- [x] Incident Investigator subagent integrated with Case context
+- [x] Custom Agent Action Get Linked Incident, backed by Apex `GetLinkedIncidentAction`
+- [x] `public with sharing` and user-mode Case access with `WITH USER_MODE`
+- [x] Callout-enabled invocable method with a 10-second timeout
+- [x] Named Credential `SENVORA_Incident_API` and External Credential authentication
+- [x] HTTPS integration with the controlled SENVORA Incident Demo API on Vercel
+- [x] Bulk-safe lookup with batches of at most 50 unique accessible Case IDs
+- [x] Stable response order and independent responses for duplicate input positions
+- [x] Structured found, not-found, validation, access, HTTP, and technical outcomes
+- [x] Sanitized external failures with no remote body, exception details, API key, or secrets exposed
+- [x] No-fabrication behavior for missing or ambiguous incident data
+- [x] Apex tests: 22/22 passed
+- [x] `GetLinkedIncidentAction` code coverage: 93.58%
+- [x] Explicit 50+2 batching test
+- [x] Salesforce Code Analyzer reviewed with no blocking security findings
+- [x] Real Salesforce-to-Vercel callouts validated for found and not-found paths
+- [x] End-to-end external integration validated through Agentforce Builder Preview and the active Enhanced Web Chat v2 deployment
+
+The external service is a controlled demo API built with Next.js and TypeScript and deployed to Vercel. It exposes `POST /api/v1/incidents/lookup`, authenticates with `X-API-Key`, and relates incidents through Salesforce `Case.Id`. The API key is managed outside Apex and Git through Salesforce credentials.
+
+Agentforce end-to-end validation covered both external outcomes through Agentforce Builder Preview and the active Enhanced Web Chat v2 deployment:
+
+- Case `00001002` resolved to Case ID `500ak000033teGKAAY`, then to incident `INC-2026-0001` with status `Investigating`, severity `High`, and title `GC5060 electrical installation issue`. Conversational follow-up returned the structured incident ID, status, severity, title, and description.
+- Case `00001003` resolved to Case ID `500ak000033teGLAAY`; the external lookup returned `found=false`, and Agentforce correctly stated that no linked external incident exists without fabricating incident fields.
+
+Human Escalation routing was regression-tested in Version 3. The agent still routes to Escalation and requests explicit confirmation before handoff.
+
 ### Next
 
-- Implement `GetLinkedIncident`
 - Add broader end-to-end integration scenarios
-- Document external incident integration architecture
+- Evaluate operational monitoring and failure observability for the demo integration
+- Expand permission and sharing regression scenarios
 - Prepare repository documentation for portfolio presentation
 
 ## Implemented Flows
@@ -77,11 +106,30 @@ Customer in Enhanced Web Chat
 → Two-way conversation
 ```
 
+### External Incident Investigation
+
+```text
+Salesforce Case
+→ Get Case Context
+→ Apex `GetCaseContextAction`
+→ Case ID stored in an Agentforce variable
+→ Incident Investigator
+→ Get Linked Incident
+→ Apex `GetLinkedIncidentAction`
+→ Named Credential `SENVORA_Incident_API`
+→ External Credential
+→ HTTPS
+→ SENVORA Incident Demo API on Vercel
+→ Structured found or not-found response
+→ Grounded Agentforce response
+```
+
 ## Current Limitations
 
-- `GetLinkedIncident` is not implemented yet.
-- The repository demonstrates a validated service-agent MVP, not a production-ready support platform.
-- Production hardening, monitoring, broader regression coverage, and deployment governance are still pending.
+- The external incident system is a controlled demo API, not a real customer incident system.
+- The repository demonstrates validated Case Investigation, Human Escalation, and External Integration MVPs; it does not represent a production-ready support platform.
+- Production hardening, monitoring, broader permission and regression coverage, and deployment governance are still pending.
+- The project does not currently implement Data Cloud, RAG, MCP, or MuleSoft integration.
 
 ## Prerequisites
 
